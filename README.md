@@ -1,2 +1,2 @@
 # MyBlazorApp
-ASP.NET, C#, Razor
+SSR application powered by ASP.NET, Razor & C#
