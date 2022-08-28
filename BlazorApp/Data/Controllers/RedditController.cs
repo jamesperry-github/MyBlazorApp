@@ -14,36 +14,44 @@ namespace BlazorApp.Data.Controllers
         public async Task<List<RedditPost>> ScrapeSubReddit(string sub)
         {
             List<RedditPost> posts = new List<RedditPost>();
-            using (var client = new HttpClient())
+            try
             {
-                string url = $"{baseUrl}r/{sub}.json";
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    string jsondata = await response.Content.ReadAsStringAsync();
-                    dynamic parsedResp = JObject.Parse(jsondata);
-                    dynamic data = (JObject)parsedResp["data"];
-                    dynamic children = (JArray)data["children"];
-                    // each reddit post
-                    foreach (var item in children)
+                    string url = $"{baseUrl}r/{sub}.json";
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
                     {
-                        //burp.Add(item["data"]["title"]);
-                        posts.Add(
-                            new RedditPost{
-                            PostText = item["data"]["selftext"],
-                            Title = item["data"]["title"],
-                            Author = item["data"]["author"],
-                            UpVotes = item["data"]["ups"],
-                            NumAwards = item["data"]["total_awards_received"],
-                            UpDownVoteRatio = item["data"]["score"],
-                            NumComments = item["data"]["num_comments"]
-                            });
+                        string jsondata = await response.Content.ReadAsStringAsync();
+                        dynamic parsedResp = JObject.Parse(jsondata);
+                        dynamic data = (JObject)parsedResp["data"];
+                        dynamic children = (JArray)data["children"];
+                        // each reddit post
+                        foreach (var item in children)
+                        {
+                            //burp.Add(item["data"]["title"]);
+                            posts.Add(
+                                new RedditPost
+                                {
+                                    PostText = item["data"]["selftext"],
+                                    Title = item["data"]["title"],
+                                    Author = item["data"]["author"],
+                                    UpVotes = item["data"]["ups"],
+                                    NumAwards = item["data"]["total_awards_received"],
+                                    UpDownVoteRatio = item["data"]["score"],
+                                    NumComments = item["data"]["num_comments"]
+                                });
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
             return await Task.FromResult(posts);
         }
