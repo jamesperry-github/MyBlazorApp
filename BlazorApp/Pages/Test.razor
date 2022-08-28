@@ -1,4 +1,4 @@
-﻿@page "/call-web-api"
+﻿@page "/test"
 
 @using System.Text.Json
 @using System.Text.Json.Serialization
@@ -30,7 +30,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var request = new HttpRequestMessage(HttpMethod.Get,
-            "https://www.reddit.com/r/wallstreetbets.json");
+            "https://api.github.com/repos/dotnet/AspNetCore.Docs/branches");
         request.Headers.Add("Accept", "application/vnd.github.v3+json");
         request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
 
@@ -57,11 +57,4 @@ else
         [JsonPropertyName("name")]
         public string Name { get; set; }
     }
-}
-
-private interface ERROR {
-    name: string
-    message: string
-    error: {
-    detail: string
 }

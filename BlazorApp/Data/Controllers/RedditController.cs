@@ -1,17 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using BlazorApp.Data.Models;
+using static BlazorApp.Pages.Test;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace BlazorApp.Data.Controllers
 {
+    //private IEnumerable<GitHubBranch> branches = Array.Empty<GitHubBranch>();
+    //private bool getBranchesError;
+    //private bool shouldRender;
+
+    //protected override bool ShouldRender() => shouldRender;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    var request = new HttpRequestMessage(HttpMethod.Get,
+    //        "https://www.reddit.com/r/wallstreetbets.json");
+    //    request.Headers.Add("Accept", "application/vnd.github.v3+json");
+    //    request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
+
+    //    var client = ClientFactory.CreateClient();
+
+    //    var response = await client.SendAsync(request);
+
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        using var responseStream = await response.Content.ReadAsStreamAsync();
+    //        branches = await JsonSerializer.DeserializeAsync
+    //            <IEnumerable<GitHubBranch>>(responseStream);
+    //    }
+    //    else
+    //    {
+    //        getBranchesError = true;
+    //    }
+
+    //    shouldRender = true;
+    //}
     public class RedditController
     {
-        public async void /*Task<ActionResult>*/ /*Task<HttpResponseMessage>*/ GetCustomers()
+        private string baseUrl = "https://www.reddit.com/";
+        public async Task<List<RedditPost>> ScrapeSubReddit(string sub)
         {
+            List<RedditPost> posts = new List<RedditPost>();
             using (var client = new HttpClient())
             {
-                string url = "https://www.reddit.com/r/wallstreetbets.json";
+                string url = $"{baseUrl}r/{sub}.json";
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -23,65 +58,24 @@ namespace BlazorApp.Data.Controllers
                     dynamic parsedResp = JObject.Parse(jsondata);
                     dynamic data = (JObject)parsedResp["data"];
                     dynamic children = (JArray)data["children"];
-                    dynamic childData = (JObject)children[0]["data"];
-                    string subreddit = childData["subreddit"].ToString();
-                    //JArray array = (JArray)ojObject["chats"];
-                    //int id = Convert.ToInt32(array[0].toString());
-                    Console.WriteLine("derp");
-                    //return Content(jsondata, "application/json");
+                    // each reddit post
+                    foreach (var item in children)
+                    {
+                        //burp.Add(item["data"]["title"]);
+                        posts.Add(
+                            new RedditPost{
+                            PostText = item["data"]["selftext"],
+                            Title = item["data"]["title"],
+                            Author = item["data"]["author"],
+                            UpVotes = item["data"]["ups"],
+                            NumAwards = item["data"]["total_awards_received"],
+                            UpDownVoteRatio = item["data"]["score"],
+                            NumComments = item["data"]["num_comments"]
+                            });
+                    }
                 }
-                //return Json(1, JsonRequestBehavior.AllowGet);
             }
+            return await Task.FromResult(posts);
         }
     }
-    //public class RedditController
-    //{
-    //    private readonly ApplicationDbContext _context;
-    //    //
-    //    private IEnumerable<GitHubBranch> branches = Array.Empty<GitHubBranch>();
-    //    private bool getBranchesError;
-    //    private bool shouldRender;
-    //    //protected override bool ShouldRender() => shouldRender;
-    //    //
-
-    //    public RedditController(ApplicationDbContext context)
-    //    {
-    //        _context = context;
-    //    }
-    //    //public List<test> best()
-    //    //{
-    //    //    return _context.test.ToList();
-    //    //}
-
-    //    public async void tester()
-    //    {
-    //        var request = new HttpRequestMessage(HttpMethod.Get,
-    //        "https://www.reddit.com/r/wallstreetbets.json");
-    //        request.Headers.Add("Accept", "application/vnd.github.v3+json");
-    //        request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
-
-    //        var client = IHttpClientFactory.CreateClient();
-
-    //        var response = await client.SendAsync(request);
-
-    //        //if (response.IsSuccessStatusCode)
-    //        //{
-    //        //    using var responseStream = await response.Content.ReadAsStreamAsync();
-    //        //    branches = await JsonSerializer.DeserializeAsync
-    //        //        <IEnumerable<GitHubBranch>>(responseStream);
-    //        //}
-    //        //else
-    //        //{
-    //        //    getBranchesError = true;
-    //        //}
-
-    //        //shouldRender = true;
-    //    }
-    //}
-
-    //public class GitHubBranch
-    //{
-    //    [JsonPropertyName("name")]
-    //    public string Name { get; set; }
-    //}
 }

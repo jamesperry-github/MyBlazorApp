@@ -13,17 +13,15 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+@*<h1>@subreddit</h1>*@
 
 
 
 @code {
-
-    //private List<test> rep;
-
-    protected override void OnInitialized()
+    private List<RedditPost> posts;
+    protected async override Task OnInitializedAsync()
     {
-        //rep = tester.best();
-        //Console.WriteLine("ree");
-        tester.GetCustomers();
+        posts = await tester.ScrapeSubReddit("wallstreetbets");
+        Console.WriteLine("yay");
     }
 }
