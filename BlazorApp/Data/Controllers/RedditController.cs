@@ -33,9 +33,7 @@ namespace BlazorApp.Data.Controllers
                         // each reddit post
                         foreach (var item in children)
                         {
-                            //burp.Add(item["data"]["title"]);
-                            posts.Add(
-                                new RedditPost
+                            posts.Add(new RedditPost
                                 {
                                     PostText = item["data"]["selftext"],
                                     Title = item["data"]["title"],
