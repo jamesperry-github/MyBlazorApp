@@ -4,6 +4,7 @@
 @using BlazorApp.Data.Models
 @using BlazorApp.Data;
 @*@inject Tester tester*@
+@inject RedditController tester
 
 <PageTitle>Index</PageTitle>
 
@@ -15,13 +16,14 @@ Welcome to your new app.
 
 
 
-@*@code {
+@code {
 
-    private List<test> rep;
+    //private List<test> rep;
 
     protected override void OnInitialized()
     {
-        rep = tester.best();
-        Console.WriteLine("ree");
+        //rep = tester.best();
+        //Console.WriteLine("ree");
+        tester.GetCustomers();
     }
-}*@
+}

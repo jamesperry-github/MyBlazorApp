@@ -21,7 +21,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+//
 builder.Services.AddTransient<Tester>();
+builder.Services.AddTransient<RedditController>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();
 //
