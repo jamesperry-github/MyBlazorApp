@@ -1,5 +1,6 @@
 using BlazorApp.Areas.Identity;
 using BlazorApp.Data;
+using BlazorApp.Data.Controllers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -20,6 +21,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddTransient<Tester>();
+// HTTP CLIENT
+builder.Services.AddHttpClient();
+//
+//builder.Services.AddDbContext<ApplicationDbContext>(
+//        options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
 
 var app = builder.Build();
 

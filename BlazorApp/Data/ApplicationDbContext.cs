@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BlazorApp.Data.Models;
 
 namespace BlazorApp.Data
 {
@@ -9,5 +10,6 @@ namespace BlazorApp.Data
             : base(options)
         {
         }
+        public DbSet<BlazorApp.Data.Models.test>? test { get; set; }
     }
 }

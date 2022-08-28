@@ -1,5 +1,10 @@
 ﻿@page "/"
 
+@using BlazorApp.Data.Controllers
+@using BlazorApp.Data.Models
+@using BlazorApp.Data;
+@*@inject Tester tester*@
+
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
@@ -7,3 +12,16 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+
+@*@code {
+
+    private List<test> rep;
+
+    protected override void OnInitialized()
+    {
+        rep = tester.best();
+        Console.WriteLine("ree");
+    }
+}*@
