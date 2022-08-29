@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using BlazorApp.Data.Models;
-using static BlazorApp.Pages.Test;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace BlazorApp.Data.Controllers
 {
@@ -70,24 +66,9 @@ namespace BlazorApp.Data.Controllers
         {
             if (stringValue.Contains(anotherStringValue))
             {
-                // Do Something //
                 return true;
             }
             return false;
         }
-
-        //public string print(List<RedditPost> list, string searchTerm)
-        //{
-        //    int counter = 0;
-        //    foreach (var item in list)
-        //    {
-        //        bool res = CheckString(item.Title, searchTerm);
-        //        if(res)
-        //        {
-        //            counter++;
-        //        }
-        //    }
-        //    return counter.ToString();
-        //}
     }
 }

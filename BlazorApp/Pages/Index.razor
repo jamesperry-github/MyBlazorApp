@@ -10,13 +10,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">Reddit Scrape</h1>&nbsp;
-            @if(count == null)
-            {
-                <span>0</span>
-            } else
-            {
-                <span>@count</span>
-            }
+                <span>Search Count: @count</span>
             <hr class="my-4">
         </div>
     </div>
@@ -32,11 +26,12 @@
 else
 {
     <div class="container text-center">
-      <button 
+      <input type="text" onchange="@Search"/>
+      @*<button 
           type="button" 
           class="btn btn-primary"
           onclick="@(() => Search())"
-      >Check</button>
+      >Check</button>*@
         <div class="row">
         <div class="col">
           <table class="table table-striped-columns table-hover">
@@ -77,14 +72,23 @@ else
 
 @code {
     private List<RedditPost> posts;
-    private int count;
+    private int count = 0;
+    private string str = "";
     protected async override Task OnInitializedAsync()
     {
         posts = await reddit.ScrapeSubReddit("wallstreetbets");
     }
 
-    public void Search()
+    public void Search(ChangeEventArgs e)
     {
-        count = reddit.FindCount(posts, "$BBBY");
+        Console.WriteLine($"You typed... {e.Value.ToString()}");
+        count = reddit.FindCount(posts, e.Value.ToString());
     }
+
+    //public void Tester(ChangeEventArgs e)
+    //{
+    //    Console.WriteLine($"You typed... {e.Value.ToString()}");
+    //    //str = e.Value;
+    //    Search(e.Value.ToString());
+    //}
 }
