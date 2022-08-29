@@ -18,7 +18,7 @@ namespace BlazorApp.Data.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    string url = $"{baseUrl}r/{sub}.json";
+                    string url = $"{baseUrl}r/{sub}.json?limit=100";
                     client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -34,15 +34,15 @@ namespace BlazorApp.Data.Controllers
                         foreach (var item in children)
                         {
                             posts.Add(new RedditPost
-                                {
-                                    PostText = item["data"]["selftext"],
-                                    Title = item["data"]["title"],
-                                    Author = item["data"]["author"],
-                                    UpVotes = item["data"]["ups"],
-                                    NumAwards = item["data"]["total_awards_received"],
-                                    UpDownVoteRatio = item["data"]["score"],
-                                    NumComments = item["data"]["num_comments"]
-                                });
+                            {
+                                PostText = item["data"]["selftext"],
+                                Title = item["data"]["title"],
+                                Author = item["data"]["author"],
+                                UpVotes = item["data"]["ups"],
+                                NumAwards = item["data"]["total_awards_received"],
+                                UpDownVoteRatio = item["data"]["score"],
+                                NumComments = item["data"]["num_comments"]
+                            });
                         }
                     }
                 }
@@ -53,5 +53,41 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(posts);
         }
+        public int FindCount(List<RedditPost> list, string searchTerm)
+        {
+            int counter = 0;
+            foreach (var item in list)
+            {
+                bool res = CheckString(item.Title, searchTerm);
+                if(res)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+        public bool CheckString(string stringValue, string anotherStringValue)
+        {
+            if (stringValue.Contains(anotherStringValue))
+            {
+                // Do Something //
+                return true;
+            }
+            return false;
+        }
+
+        //public string print(List<RedditPost> list, string searchTerm)
+        //{
+        //    int counter = 0;
+        //    foreach (var item in list)
+        //    {
+        //        bool res = CheckString(item.Title, searchTerm);
+        //        if(res)
+        //        {
+        //            counter++;
+        //        }
+        //    }
+        //    return counter.ToString();
+        //}
     }
 }

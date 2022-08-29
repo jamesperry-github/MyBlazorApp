@@ -3,14 +3,24 @@
 @using BlazorApp.Data.Controllers
 @using BlazorApp.Data.Models
 @using BlazorApp.Data;
-@*@inject Tester tester*@
-@inject RedditController tester
+@inject RedditController reddit
 
 <PageTitle>Index</PageTitle>
 
-<h1>Wall Street Bets</h1>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Reddit Scrape</h1>&nbsp;
+            @if(count == null)
+            {
+                <span>0</span>
+            } else
+            {
+                <span>@count</span>
+            }
+            <hr class="my-4">
+        </div>
+    </div>
 
-@*<SurveyPrompt Title="How is Blazor working for you?" />*@
 @if (posts == null)
 {
    <div class="spinner-outer">
@@ -21,41 +31,60 @@
 }
 else
 {
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Author</th>
-      <th scope="col">PostText</th>
-      <th scope="col">UpVotes</th>
-      <th scope="col">NumAwards</th>
-      <th scope="col">UpDownVoteRatio</th>
-      <th scope="col">NumComments</th>
-    </tr>
-  </thead>
-  <tbody>
-      @foreach (var post in posts)
-        {
-            <tr>
-              <td>@post.Title</td>
-              <td>@post.Author</td>
-              <td>@post.PostText</td>
-              <td>@post.UpVotes</td>
-              <td>@post.NumAwards</td>
-              <td>@post.UpDownVoteRatio</td>
-              <td>@post.NumAwards</td>
-            </tr>
-        }
-  </tbody>
-</table>
+    <div class="container text-center">
+      <button 
+          type="button" 
+          class="btn btn-primary"
+          onclick="@(() => Search())"
+      >Check</button>
+        <div class="row">
+        <div class="col">
+          <table class="table table-striped-columns table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">PostText</th>
+                <th scope="col">UpVotes</th>
+                <th scope="col">NumAwards</th>
+                <th scope="col">UpDownVoteRatio</th>
+                <th scope="col">NumComments</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var post in posts)
+              {
+                <tr>
+                  <td>@(posts.IndexOf(post) + 1)</td>
+                  <td>@post.Title</td>
+                  <td>@post.Author</td>
+                  <td>@post.PostText</td>
+                  <td>@post.UpVotes</td>
+                  <td>@post.NumAwards</td>
+                  <td>@post.UpDownVoteRatio</td>
+                  <td>@post.NumComments</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div> 
+      </div>
+    </div>
 }
 
 
 
 @code {
     private List<RedditPost> posts;
+    private int count;
     protected async override Task OnInitializedAsync()
     {
-        posts = await tester.ScrapeSubReddit("wallstreetbets");
+        posts = await reddit.ScrapeSubReddit("wallstreetbets");
+    }
+
+    public void Search()
+    {
+        count = reddit.FindCount(posts, "$BBBY");
     }
 }
