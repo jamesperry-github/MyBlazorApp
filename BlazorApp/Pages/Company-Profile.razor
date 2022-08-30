@@ -15,7 +15,6 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">@company.name</h1>&nbsp;
-        @*<input type="text" onchange="@Search" />*@
         <hr class="my-4">
     </div>
 </div>
@@ -33,7 +32,6 @@
         _Param = Param;
         company = await finhub.Test(Param);
         StateHasChanged();
-        Console.WriteLine("Yay");
     }
 
     protected async override void OnParametersSet()
@@ -44,5 +42,5 @@
             _Param = Param;
             await OnInitializedAsync();
         }
-      }
+    }
 }

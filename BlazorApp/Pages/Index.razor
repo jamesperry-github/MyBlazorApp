@@ -10,7 +10,6 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">Welcome!</h1>&nbsp;
-        <input type="text" placeholder="Enter ticker!" onchange="@Search" />
         <hr class="my-4">
     </div>
 </div>
@@ -18,8 +17,5 @@
 
 
 @code {
-   public void Search(ChangeEventArgs e)
-    {
-        NavManager.NavigateTo($"/stock/{e.Value}");
-    }
+
 }
