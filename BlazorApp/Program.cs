@@ -24,6 +24,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 //
 builder.Services.AddTransient<Tester>();
 builder.Services.AddTransient<RedditController>();
+builder.Services.AddTransient<FinhubController>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();
 //

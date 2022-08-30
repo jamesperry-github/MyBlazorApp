@@ -2511,7 +2511,7 @@
           "ref/netstandard1.5/System.Reflection.dll": {}
         }
       },
-      "System.Reflection.Emit/4.6.0": {
+      "System.Reflection.Emit/4.7.0": {
         "type": "package",
         "compile": {
           "ref/netcoreapp2.0/_._": {}
@@ -3196,6 +3196,21 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
+        }
+      },
+      "Tesseract/4.1.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Reflection.Emit": "4.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Tesseract.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Tesseract.dll": {}
+        },
+        "build": {
+          "build/Tesseract.targets": {}
         }
       }
     }
@@ -7771,16 +7786,17 @@
         "system.reflection.nuspec"
       ]
     },
-    "System.Reflection.Emit/4.6.0": {
-      "sha512": "qAo4jyXtC9i71iElngX7P2r+zLaiHzxKwf66sc3X91tL5Ks6fnQ1vxL04o7ZSm3sYfLExySL7GN8aTpNYpU1qw==",
+    "System.Reflection.Emit/4.7.0": {
+      "sha512": "VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
       "type": "package",
-      "path": "system.reflection.emit/4.6.0",
+      "path": "system.reflection.emit/4.7.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/monoandroid10/_._",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
         "lib/net45/_._",
         "lib/netcore50/System.Reflection.Emit.dll",
         "lib/netcoreapp2.0/_._",
@@ -7790,8 +7806,12 @@
         "lib/netstandard2.0/System.Reflection.Emit.dll",
         "lib/netstandard2.0/System.Reflection.Emit.xml",
         "lib/netstandard2.1/_._",
+        "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
-        "ref/monoandroid10/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
         "ref/net45/_._",
         "ref/netcoreapp2.0/_._",
         "ref/netstandard1.1/System.Reflection.Emit.dll",
@@ -7808,10 +7828,13 @@
         "ref/netstandard2.0/System.Reflection.Emit.dll",
         "ref/netstandard2.0/System.Reflection.Emit.xml",
         "ref/netstandard2.1/_._",
+        "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
         "runtimes/aot/lib/netcore50/System.Reflection.Emit.dll",
         "runtimes/aot/lib/netcore50/System.Reflection.Emit.xml",
-        "system.reflection.emit.4.6.0.nupkg.sha512",
+        "system.reflection.emit.4.7.0.nupkg.sha512",
         "system.reflection.emit.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -9797,6 +9820,26 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "Tesseract/4.1.1": {
+      "sha512": "abufaW6N3P7TGJPI3RNTMSzS1ycnE1w6aW/Q+Hco/wCgm+bXUgR87JsGELvTcm2FISXGlQgs+PvYMVo9SlcPfg==",
+      "type": "package",
+      "path": "tesseract/4.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/Tesseract.targets",
+        "lib/net40/Tesseract.dll",
+        "lib/net45/Tesseract.dll",
+        "lib/netstandard2.0/Tesseract.dll",
+        "lib/netstandard2.0/Tesseract.xml",
+        "tesseract.4.1.1.nupkg.sha512",
+        "tesseract.nuspec",
+        "x64/leptonica-1.80.0.dll",
+        "x64/tesseract41.dll",
+        "x86/leptonica-1.80.0.dll",
+        "x86/tesseract41.dll"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -9806,7 +9849,8 @@
       "Microsoft.AspNetCore.Identity.UI >= 6.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.8",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.8"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.8",
+      "Tesseract >= 4.1.1"
     ]
   },
   "packageFolders": {
@@ -9875,6 +9919,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[6.0.8, )"
+          },
+          "Tesseract": {
+            "target": "Package",
+            "version": "[4.1.1, )"
           }
         },
         "imports": [

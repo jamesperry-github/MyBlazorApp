@@ -6,7 +6,7 @@ namespace BlazorApp.Data.Controllers
 {
     public class RedditController
     {
-        private string baseUrl = "https://www.reddit.com/";
+        private string baseUrl = "https://www.reddit.com";
         public async Task<List<RedditPost>> ScrapeSubReddit(string sub)
         {
             List<RedditPost> posts = new List<RedditPost>();
@@ -14,7 +14,7 @@ namespace BlazorApp.Data.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    string url = $"{baseUrl}r/{sub}.json?limit=100";
+                    string url = $"{baseUrl}/r/{sub}.json?limit=100";
                     client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

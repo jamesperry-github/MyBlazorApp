@@ -1,9 +1,10 @@
-﻿@page "/"
+﻿@page "/";
 
-@using BlazorApp.Data.Controllers
-@using BlazorApp.Data.Models
+@using BlazorApp.Data.Controllers;
+@using BlazorApp.Data.Models;
 @using BlazorApp.Data;
-@inject RedditController reddit
+@inject RedditController reddit;
+@inject FinhubController finhub;
 
 <PageTitle>Index</PageTitle>
 
@@ -35,11 +36,11 @@ else
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Author</th>
-                        <th scope="col">PostText</th>
-                        <th scope="col">UpVotes</th>
-                        <th scope="col">NumAwards</th>
-                        <th scope="col">UpDownVoteRatio</th>
-                        <th scope="col">NumComments</th>
+                        <th scope="col">Post Text</th>
+                        <th scope="col">Up Votes</th>
+                        <th scope="col"># Awards</th>
+                        <th scope="col">Up / Down Vote Ratio</th>
+                        <th scope="col"># Comments</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,11 +68,14 @@ else
 
 @code {
     private List<RedditPost> posts;
+    private List<Stock> stocks;
     private int count = 0;
     private string str = "";
     protected async override Task OnInitializedAsync()
     {
         posts = await reddit.ScrapeSubReddit("wallstreetbets");
+        stocks = await finhub.Test();
+        Console.WriteLine("Yay");
     }
 
     public void Search(ChangeEventArgs e)
