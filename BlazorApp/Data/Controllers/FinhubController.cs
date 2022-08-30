@@ -63,9 +63,9 @@ namespace BlazorApp.Data.Controllers
         }
         // (2) Company data from ticker
         // /stock/profile2?symbol=AAPL&token=cc6k1gqad3i394r9cps0
-        public async void /*Task<List<Stock>>*/ Test(string tickerSymbol)
+        public async Task<CompanyInfo> Test(string tickerSymbol)
         {
-            //List<Stock> list = new List<Stock>();
+            CompanyInfo info = new CompanyInfo();
             try
             {
                 using (var client = new HttpClient())
@@ -80,24 +80,7 @@ namespace BlazorApp.Data.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string jsondata = await response.Content.ReadAsStringAsync();
-                        dynamic parsedResp = JObject.Parse(jsondata);
-                        //// each stock ticket
-                        //foreach (var item in parsedResp)
-                        //{
-                        //    list.Add(new Stock
-                        //    {
-                        //        Currency = item["currency"],
-                        //        Description = item["description"],
-                        //        DisplaySymbol = item["displaySymbol"],
-                        //        Figi = item["figi"],
-                        //        Isin = item["isin"],
-                        //        Mic = item["mic"],
-                        //        ShareClassFIGI = item["shareClassFIGI"],
-                        //        Symbol = item["symbol"],
-                        //        Symbol2 = item["symbol2"],
-                        //        Type = item["type"]
-                        //    });
-                        //}
+                        info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                         Console.WriteLine("Success.");
                     }
                     else
@@ -110,7 +93,7 @@ namespace BlazorApp.Data.Controllers
             {
                 throw;
             }
-            //return await Task.FromResult(list);
+            return await Task.FromResult(info);
         }
         // (3) Company news from ticker and time interval
         // /company-news?symbol=AAPL&from=2021-09-01&to=2021-09-09&token=cc6k1gqad3i394r9cps0

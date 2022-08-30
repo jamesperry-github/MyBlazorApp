@@ -1,5 +1,4 @@
-﻿@*@page "/stock"*@
-@page "/stock/{param?}";
+﻿@page "/stock/{param?}";
 
 @using BlazorApp.Data.Controllers;
 @using BlazorApp.Data.Models;
@@ -8,39 +7,42 @@
 
 <PageTitle>Index</PageTitle>
 
+@if(company == null)
+{
+    
+} else
+{
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">${Stock Name}</h1>&nbsp;
+        <h1 class="display-4">@company.name</h1>&nbsp;
         @*<input type="text" onchange="@Search" />*@
         <hr class="my-4">
     </div>
 </div>
+}
 
 
 @code {
     [Parameter]
     public string? Param { get; set; }
+    string _Param;
+    private CompanyInfo company;
 
-    private List<Stock> stocks;
-    protected /*async*/ override void /*OnInitializedAsync*/OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        finhub.Test("GME");
+        _Param = Param;
+        company = await finhub.Test(Param);
+        StateHasChanged();
         Console.WriteLine("Yay");
     }
-    //public void Search(ChangeEventArgs e)
-    //{
-    //    count = reddit.FindCount(posts, e.Value.ToString());
-    //}
+
+    protected async override void OnParametersSet()
+    {
+        // re-initialize componet when url param is udpated
+        if (_Param != Param)
+        {
+            _Param = Param;
+            await OnInitializedAsync();
+        }
+      }
 }
-    @*"country": "US",
-    "currency": "USD",
-    "exchange": "NEW YORK STOCK EXCHANGE, INC.",
-    "finnhubIndustry": "Retail",
-    "ipo": "2002-02-12",
-    "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/GME.png",
-    "marketCapitalization": 9607.483540316744,
-    "name": "GameStop Corp",
-    "phone": "18174242000.0",
-    "shareOutstanding": 304.516,
-    "ticker": "GME",
-    "weburl": "https://news.gamestop.com/"*@

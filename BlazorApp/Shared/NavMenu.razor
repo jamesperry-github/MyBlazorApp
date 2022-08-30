@@ -1,10 +1,13 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject NavigationManager NavManager;
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BlazorApp</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
+    <input type="text" onchange="@Search" />
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
@@ -35,5 +38,11 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    public void Search(ChangeEventArgs e)
+    {
+        Console.WriteLine($"{e.Value} is here");
+        NavManager.NavigateTo($"/stock/{e.Value}");
     }
 }
