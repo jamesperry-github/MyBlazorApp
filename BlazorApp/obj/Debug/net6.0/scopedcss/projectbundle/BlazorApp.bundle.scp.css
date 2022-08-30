@@ -1,9 +1,10 @@
 /* _content/BlazorApp/Pages/Index.razor.rz.scp.css */
+/* _content/BlazorApp/Pages/Sub-Reddit.razor.rz.scp.css */
 /*body {
     background-color: black;
 }*/
 
-.spinner-outer[b-w6l7chfipm] {
+.spinner-outer[b-dote0sif3q] {
     text-align: center;
     position: relative;
     top: 50px;
@@ -23,12 +24,12 @@
     width: 100%;
 }*/
 
-.table[b-w6l7chfipm] {
+.table[b-dote0sif3q] {
     table-layout: fixed;
     font-size: 70%;
 }
 
-td[b-w6l7chfipm] {
+td[b-dote0sif3q] {
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;

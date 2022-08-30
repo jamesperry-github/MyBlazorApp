@@ -1,0 +1,46 @@
+﻿@*@page "/stock"*@
+@page "/stock/{param?}";
+
+@using BlazorApp.Data.Controllers;
+@using BlazorApp.Data.Models;
+@using BlazorApp.Data;
+@inject FinhubController finhub;
+
+<PageTitle>Index</PageTitle>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">${Stock Name}</h1>&nbsp;
+        @*<input type="text" onchange="@Search" />*@
+        <hr class="my-4">
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string? Param { get; set; }
+
+    private List<Stock> stocks;
+    protected /*async*/ override void /*OnInitializedAsync*/OnInitialized()
+    {
+        finhub.Test("GME");
+        Console.WriteLine("Yay");
+    }
+    //public void Search(ChangeEventArgs e)
+    //{
+    //    count = reddit.FindCount(posts, e.Value.ToString());
+    //}
+}
+    @*"country": "US",
+    "currency": "USD",
+    "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+    "finnhubIndustry": "Retail",
+    "ipo": "2002-02-12",
+    "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/GME.png",
+    "marketCapitalization": 9607.483540316744,
+    "name": "GameStop Corp",
+    "phone": "18174242000.0",
+    "shareOutstanding": 304.516,
+    "ticker": "GME",
+    "weburl": "https://news.gamestop.com/"*@

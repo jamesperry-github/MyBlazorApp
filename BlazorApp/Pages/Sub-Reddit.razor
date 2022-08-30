@@ -1,0 +1,95 @@
+﻿@page "/wsb";
+
+@using BlazorApp.Data.Controllers;
+@using BlazorApp.Data.Models;
+@using BlazorApp.Data;
+@*@inject IJSRuntime JS;*@
+@inject NavigationManager NavManager
+@inject RedditController reddit;
+@inject FinhubController finhub;
+
+<PageTitle>Index</PageTitle>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Reddit Scrape</h1>&nbsp;
+        <span>Search Count: @count</span>
+        <hr class="my-4">
+    </div>
+</div>
+
+@if (posts == null)
+{
+<div class="spinner-outer">
+    <div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
+}
+else
+{
+<div class="container text-center">
+    <input type="text" onchange="@Search" />
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped-columns table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Post Text</th>
+                        <th scope="col">Up Votes</th>
+                        <th scope="col"># Awards</th>
+                        <th scope="col">Up / Down Vote Ratio</th>
+                        <th scope="col"># Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var post in posts)
+                    {
+                    <tr>
+                        <td>@(posts.IndexOf(post) + 1)</td>
+                        <td>@post.Title</td>
+                        <td>@post.Author</td>
+                        <td>@post.PostText</td>
+                        <td>@post.UpVotes</td>
+                        <td>@post.NumAwards</td>
+                        <td>@post.UpDownVoteRatio</td>
+                        <td>@post.NumComments</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+
+
+
+@code {
+    private List<RedditPost> posts;
+    private List<Stock> stocks;
+    private int count = 0;
+    private string str = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        posts = await reddit.ScrapeSubReddit("wallstreetbets");
+        //await JS.InvokeVoidAsync("sayToSessionStorage");
+
+        //Console.WriteLine("Yay");
+
+    }
+    //protected async void save()
+    //{
+    //    await JS.InvokeAsync<string>("saveToSessionStorage");
+    //}
+
+    public void Search(ChangeEventArgs e)
+    {
+        count = reddit.FindCount(posts, e.Value.ToString());
+        //save();
+    }
+}

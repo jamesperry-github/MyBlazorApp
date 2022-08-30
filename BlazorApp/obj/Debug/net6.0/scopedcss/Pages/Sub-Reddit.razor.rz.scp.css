@@ -1,0 +1,34 @@
+/*body {
+    background-color: black;
+}*/
+
+.spinner-outer[b-dote0sif3q] {
+    text-align: center;
+    position: relative;
+    top: 50px;
+}
+
+/*.flex-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row {
+    margin: 5px;
+    width: 100%;
+}*/
+
+.table[b-dote0sif3q] {
+    table-layout: fixed;
+    font-size: 70%;
+}
+
+td[b-dote0sif3q] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
