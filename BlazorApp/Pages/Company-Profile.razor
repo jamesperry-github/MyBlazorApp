@@ -194,7 +194,8 @@
     protected async override Task OnInitializedAsync()
     {
         _Param = Param;
-        company = await finhub.Test(Param);
+        company = await finhub.GetCompanyInfo(Param);
+        finhub.test(Param);
         StateHasChanged();
     }
 
