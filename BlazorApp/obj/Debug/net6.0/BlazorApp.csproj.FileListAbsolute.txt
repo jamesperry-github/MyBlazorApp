@@ -813,3 +813,4 @@ C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\BlazorA
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\ref\BlazorApp.dll
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Sub-Reddit.razor.rz.scp.css
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Company-Profile.razor.rz.scp.css

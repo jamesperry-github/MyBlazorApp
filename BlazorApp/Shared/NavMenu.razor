@@ -45,10 +45,8 @@
 
     public async void Search(ChangeEventArgs e)
     {
+        // TODO: reset form value
         _value = e.Value.ToString();
         NavManager.NavigateTo($"/stock/{_value}");
-        Console.WriteLine($"You typed {_value}");
-        //_value = "";
-        //StateHasChanged();
     }
 }
