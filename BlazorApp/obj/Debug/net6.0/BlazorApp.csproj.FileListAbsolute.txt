@@ -814,3 +814,16 @@ C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\ref\Bla
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Sub-Reddit.razor.rz.scp.css
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\Company-Profile.razor.rz.scp.css
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.AspNetCore.Components.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Microsoft.JSInterop.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.Blazor.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.Blazor.Core.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.ExcelExport.Net.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.Licensing.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.PdfExport.Net.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\System.IO.Pipelines.dll

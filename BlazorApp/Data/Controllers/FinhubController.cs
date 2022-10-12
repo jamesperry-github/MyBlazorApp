@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
-using BlazorApp.Data.Models;
 using BlazorApp.Data.Services;
+using BlazorApp.Data.Models;
 
 namespace BlazorApp.Data.Controllers
 {
@@ -113,7 +113,25 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(info);
         }
-        // (5) Company insider transaction on ticker and limit of 100
+        // (5) Ticker quotes
+        // /quote?symbol=AAPL
+        public async void test(string tickerSymbol)
+        {
+            CompanyQuote info = new CompanyQuote();
+            try
+            {
+                string url = $"{baseUrl}/quote?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                info = JObject.Parse(jsondata).ToObject<CompanyQuote>();
+                Console.WriteLine("");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            //return await Task.FromResult(info);
+        }
+        // (6) Company insider transaction on ticker and limit of 100
         // /stock/insider-transactions?symbol=AAPL&limit=100&token=cc6k1gqad3i394r9cps0
         public async void test3()
         {
@@ -132,7 +150,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (6) Company insider sentiment on ticket and time interval
+        // (7) Company insider sentiment on ticket and time interval
         // /stock/insider-sentiment?symbol=TSLA&from=2015-01-01&to=2022-03-01&token=cc6k1gqad3i394r9cps0
         public async void test4()
         {
@@ -151,7 +169,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (7) Upcoming IPOs on time interval
+        // (8) Upcoming IPOs on time interval
         // /calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0
         public async void test5()
         {
@@ -160,32 +178,6 @@ namespace BlazorApp.Data.Controllers
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
                 //var jsondata = await new FinhubService().requestFinhubJson(url);
-                //dynamic parsedResp = JArray.Parse(jsondata);
-                //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
-                Console.WriteLine("");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            //return await Task.FromResult(list);
-        }
-        // (8) Ticker quotes
-        // /quote?symbol=AAPL
-        //c - Current price
-        //d - Change
-        //dp - Percent change
-        //h - High price of the day
-        //l - Low price of the day
-        //o - Open price of the day
-        //pc - Previous close price
-        public async void test(string tickerSymbol)
-        {
-            //List<Stock> list = new List<Stock>();
-            try
-            {
-                string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");

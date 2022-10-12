@@ -20,11 +20,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
-//
-builder.Services.AddTransient<Tester>();
-builder.Services.AddScoped<RedditController>();
-builder.Services.AddTransient<FinhubController>();
+// ****
+//builder.Services.AddSingleton<WeatherForecastService>();
+//builder.Services.AddTransient<Tester>();
+builder.Services.AddTransient<RedditController>();
+builder.Services.AddSingleton<FinhubController>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();
 //

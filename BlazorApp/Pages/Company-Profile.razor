@@ -5,6 +5,7 @@
 @using BlazorApp.Data;
 @inject NavigationManager NavManager;
 @inject FinhubController finhub;
+@inject IJSRuntime JS
 
 <PageTitle>Index</PageTitle>
 
@@ -119,7 +120,8 @@
         </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+      @*<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>*@
+      <PriceGraph />
 
       <h2>Financials?</h2>
       <div class="table-responsive">
@@ -198,6 +200,7 @@
         company = await finhub.GetCompanyInfo(Param);
         //financials = await finhub.GetCompanyFinancials(Param);
         finhub.test(Param);
+        //await JS.InvokeAsync<string>("saveToSessionStorage");
         StateHasChanged();
     }
 
