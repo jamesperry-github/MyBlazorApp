@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using BlazorApp.Data.Models;
+using BlazorApp.Data.Services;
 
 namespace BlazorApp.Data.Controllers
 {
@@ -17,42 +18,26 @@ namespace BlazorApp.Data.Controllers
             List<Stock> list = new List<Stock>();
             try
             {
-                using (var client = new HttpClient())
+                string url = $"{baseUrl}/stock/symbol?exchange=US&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+
+                dynamic parsedResp = JArray.Parse(jsondata);
+                //// each stock ticket
+                foreach (var item in parsedResp)
                 {
-                    string url = $"{baseUrl}/stock/symbol?exchange=US&token=cc6k1gqad3i394r9cps0";
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
-                    // create subreddit request
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
+                    list.Add(new Stock
                     {
-                        string jsondata = await response.Content.ReadAsStringAsync();
-                        dynamic parsedResp = JArray.Parse(jsondata);
-                        //// each stock ticket
-                        foreach (var item in parsedResp)
-                        {
-                            list.Add(new Stock
-                            {
-                                Currency = item["currency"],
-                                Description = item["description"],
-                                DisplaySymbol = item["displaySymbol"],
-                                Figi = item["figi"],
-                                Isin = item["isin"],
-                                Mic = item["mic"],
-                                ShareClassFIGI = item["shareClassFIGI"],
-                                Symbol = item["symbol"],
-                                Symbol2 = item["symbol2"],
-                                Type = item["type"]
-                            });
-                        }
-                        //Console.WriteLine("Success.");
-                    } 
-                    else
-                    {
-                        Console.WriteLine("Failed.");
-                    }
+                        Currency = item["currency"],
+                        Description = item["description"],
+                        DisplaySymbol = item["displaySymbol"],
+                        Figi = item["figi"],
+                        Isin = item["isin"],
+                        Mic = item["mic"],
+                        ShareClassFIGI = item["shareClassFIGI"],
+                        Symbol = item["symbol"],
+                        Symbol2 = item["symbol2"],
+                        Type = item["type"]
+                    });
                 }
             }
             catch (Exception)
@@ -68,26 +53,10 @@ namespace BlazorApp.Data.Controllers
             CompanyInfo info = new CompanyInfo();
             try
             {
-                using (var client = new HttpClient())
-                {
-                    string url = $"{baseUrl}/stock/profile2?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
-                    // create subreddit request
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string jsondata = await response.Content.ReadAsStringAsync();
-                        info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
-                        //Console.WriteLine("Success.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed.");
-                    }
-                }
+                string url = $"{baseUrl}/stock/profile2?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
+                Console.WriteLine("");
             }
             catch (Exception)
             {
@@ -102,41 +71,24 @@ namespace BlazorApp.Data.Controllers
             List<CompanyNews> list = new List<CompanyNews>();
             try
             {
-                using (var client = new HttpClient())
+                string url = $"{baseUrl}/company-news?symbol={tickerSymbol}&from=2021-09-01&to=2021-09-09&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                dynamic parsedResp = JArray.Parse(jsondata);
+                //// each news article
+                foreach (var item in parsedResp)
                 {
-                    string url = $"{baseUrl}/company-news?symbol={tickerSymbol}&from=2021-09-01&to=2021-09-09&token=cc6k1gqad3i394r9cps0";
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
-                    // create subreddit request
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
+                    list.Add(new CompanyNews
                     {
-                        string jsondata = await response.Content.ReadAsStringAsync();
-                        dynamic parsedResp = JArray.Parse(jsondata);
-                        //// each news article
-                        foreach (var item in parsedResp)
-                        {
-                            list.Add(new CompanyNews
-                            {
-                                category = item["category"],
-                                datetime = item["datetime"],
-                                headline = item["headline"],
-                                id = item["id"],
-                                image = item["image"],
-                                related = item["related"],
-                                source = item["source"],
-                                summary = item["summary"],
-                                url = item["url"]
-                            });
-                        }
-                        //Console.WriteLine("Success.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed.");
-                    }
+                        category = item["category"],
+                        datetime = item["datetime"],
+                        headline = item["headline"],
+                        id = item["id"],
+                        image = item["image"],
+                        related = item["related"],
+                        source = item["source"],
+                        summary = item["summary"],
+                        url = item["url"]
+                    });
                 }
             }
             catch (Exception)
@@ -147,54 +99,20 @@ namespace BlazorApp.Data.Controllers
         }
         // (4) Company financials on ticker
         // /stock/metric?symbol=AAPL&metric=all&token=cc6k1gqad3i394r9cps0
-        public async void test(string tickerSymbol)
+        public async Task<CompanyFinancials> GetCompanyFinancials(string tickerSymbol)
         {
-            //List<Stock> list = new List<Stock>();
+            CompanyFinancials info = new CompanyFinancials();
             try
             {
-                using (var client = new HttpClient())
-                {
-                    string url = $"{baseUrl}/stock/metric?symbol={tickerSymbol}&metric=all&token=cc6k1gqad3i394r9cps0";
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
-                    // create subreddit request
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string jsondata = await response.Content.ReadAsStringAsync();
-                        dynamic parsedResp = JArray.Parse(jsondata);
-                        //// each stock ticket
-                        //foreach (var item in parsedResp)
-                        //{
-                        //    list.Add(new Stock
-                        //    {
-                        //        Currency = item["currency"],
-                        //        Description = item["description"],
-                        //        DisplaySymbol = item["displaySymbol"],
-                        //        Figi = item["figi"],
-                        //        Isin = item["isin"],
-                        //        Mic = item["mic"],
-                        //        ShareClassFIGI = item["shareClassFIGI"],
-                        //        Symbol = item["symbol"],
-                        //        Symbol2 = item["symbol2"],
-                        //        Type = item["type"]
-                        //    });
-                        //}
-                        Console.WriteLine("Success.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed.");
-                    }
-                }
+                string url = $"{baseUrl}/stock/metric?symbol={tickerSymbol}&metric=all&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                info = JObject.Parse(jsondata)["metric"].ToObject<CompanyFinancials>();
             }
             catch (Exception)
             {
                 throw;
             }
-            //return await Task.FromResult(list);
+            return await Task.FromResult(info);
         }
         // (5) Company insider transaction on ticker and limit of 100
         // /stock/insider-transactions?symbol=AAPL&limit=100&token=cc6k1gqad3i394r9cps0

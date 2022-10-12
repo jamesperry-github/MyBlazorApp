@@ -23,7 +23,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddSingleton<WeatherForecastService>();
 //
 builder.Services.AddTransient<Tester>();
-builder.Services.AddTransient<RedditController>();
+builder.Services.AddScoped<RedditController>();
 builder.Services.AddTransient<FinhubController>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();

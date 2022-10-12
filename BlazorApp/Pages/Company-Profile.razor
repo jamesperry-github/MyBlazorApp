@@ -121,7 +121,7 @@
 
       <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-      <h2>Section title</h2>
+      <h2>Financials?</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -190,12 +190,13 @@
     public string? Param { get; set; }
     string _Param;
     private CompanyInfo company;
+    private CompanyFinancials financials;
 
     protected async override Task OnInitializedAsync()
     {
         _Param = Param;
         company = await finhub.GetCompanyInfo(Param);
-        finhub.test(Param);
+        //financials = await finhub.GetCompanyFinancials(Param);
         StateHasChanged();
     }
 
