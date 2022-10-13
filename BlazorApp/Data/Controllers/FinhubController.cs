@@ -115,7 +115,7 @@ namespace BlazorApp.Data.Controllers
         }
         // (5) Ticker quotes
         // /quote?symbol=AAPL
-        public async void test(string tickerSymbol)
+        public async Task<CompanyQuote> GetCompanyQuote(string tickerSymbol)
         {
             CompanyQuote info = new CompanyQuote();
             try
@@ -123,15 +123,31 @@ namespace BlazorApp.Data.Controllers
                 string url = $"{baseUrl}/quote?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
                 var jsondata = await new FinhubService().requestFinhubJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyQuote>();
-                Console.WriteLine("");
             }
             catch (Exception)
             {
                 throw;
             }
-            //return await Task.FromResult(info);
+            return await Task.FromResult(info);
         }
-        // (6) Company insider transaction on ticker and limit of 100
+        // (6) Ticker candles
+        // /stock/candle?symbol=GME&resolution=D&from=1641089347&to=1665623347&token=cc6k1gqad3i394r9cps0
+        public async Task<CompanyCandles?> GetCompanyCandles(string tickerSymbol, long fromDate, long toDate)
+        {
+            CompanyCandles info = new CompanyCandles();
+            try
+            {
+                string url = $"{baseUrl}/stock/candle?symbol={tickerSymbol}&resolution=D&from={fromDate}&to={toDate}&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                info = JObject.Parse(jsondata).ToObject<CompanyCandles>();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return await Task.FromResult(info);
+        }
+        // (7) Company insider transaction on ticker and limit of 100
         // /stock/insider-transactions?symbol=AAPL&limit=100&token=cc6k1gqad3i394r9cps0
         public async void test3()
         {
@@ -150,7 +166,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (7) Company insider sentiment on ticket and time interval
+        // (8) Company insider sentiment on ticket and time interval
         // /stock/insider-sentiment?symbol=TSLA&from=2015-01-01&to=2022-03-01&token=cc6k1gqad3i394r9cps0
         public async void test4()
         {
@@ -169,28 +185,9 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (8) Upcoming IPOs on time interval
+        // (9) Upcoming IPOs on time interval
         // /calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0
         public async void test5()
-        {
-            //List<Stock> list = new List<Stock>();
-            try
-            {
-                //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
-                //dynamic parsedResp = JArray.Parse(jsondata);
-                //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
-                Console.WriteLine("");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            //return await Task.FromResult(list);
-        }
-        // (9) Ticker candles
-        // /stock/candle?symbol=AAPL&resolution=1&from=1631022248&to=1631627048&token=cc6k1gqad3i394r9cps0
-        public async void test7()
         {
             //List<Stock> list = new List<Stock>();
             try

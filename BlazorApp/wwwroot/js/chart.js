@@ -1,41 +1,10 @@
 ﻿//// Load the Visualization API and the corechart package.
-//google.charts.load('current', { 'packages': ['corechart', 'line'] });
+google.charts.load('current', { packages: ['corechart', 'line'] });
 //// Set a callback to run when the Google Visualization API is loaded.
-//google.charts.setOnLoadCallback(initChart);
+google.charts.setOnLoadCallback(drawTrendlines);
 //// Callback that creates and populates a data table,
 //// instantiates the line chart, passes in the data and
 //// draws it.
-//function initChart() {
-//    var xs = [];
-//    var ys = [];
-//    window.generateChart({ xs, ys });
-//}
-
-//window.generateChart = (params) => {
-//    var xs = params.xs;
-//    var ys = params.ys;
-//    var data = new google.visualization.DataTable();
-//    data.addColumn('number', 'X');
-//    data.addColumn('number', 'Y');
-
-//    for (var i = 0; i < ys.length; i++) {
-//        data.addRow([xs[i], ys[i]]);
-//    }
-
-//    var options = {
-//        hAxis: { title: 'Horizontal Axis Label' },
-//        vAxis: { title: 'Vertical Axis Label' },
-//        title: 'This is a Google Chart in Blazor',
-//        legend: { position: 'none' },
-//    }
-
-//    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-//    chart.draw(data, options);
-//}
-//window.onresize = function () { initChart(); };
-google.charts.load('current', { packages: ['corechart', 'line'] });
-google.charts.setOnLoadCallback(drawTrendlines);
-
 function drawTrendlines() {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'X');

@@ -1,0 +1,16 @@
+﻿@using System.Threading.Tasks;
+@inject IJSRuntime JS
+
+<div id="chart_div"></div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        PlotData();
+    }
+
+    private void PlotData()
+    {
+        JS.InvokeVoidAsync("drawTrendlines");
+    }
+}

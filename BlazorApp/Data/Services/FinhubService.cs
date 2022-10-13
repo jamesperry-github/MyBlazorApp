@@ -10,18 +10,25 @@ namespace BlazorApp.Data.Services
         public async Task<string> requestFinhubJson(string url)
         {
             string jsondata = "";
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
-                // TODO: store objects in memory to avoid re-calls
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    jsondata = await response.Content.ReadAsStringAsync();
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("X-Finnhub-Secret", "cc6k1gqad3i394r9cps0");
+                    // TODO: store objects in memory to avoid re-calls
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        jsondata = await response.Content.ReadAsStringAsync();
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
             return await Task.FromResult(jsondata);
         }

@@ -119,11 +119,14 @@
           </button>
         </div>
       </div>
-
-      @*<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>*@
-      <PriceGraph />
-
-      <h2>Financials?</h2>
+        @*@if(candles == null)
+        {
+    
+        } else
+        {*@
+        <PriceChart />
+        @*}*@
+      <h2>Financials</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -186,20 +189,28 @@
 </div>
 }
 
-
 @code {
     [Parameter]
     public string? Param { get; set; }
     string _Param;
     private CompanyInfo company;
     private CompanyFinancials financials;
+    private CompanyQuote quote;
+    private CompanyCandles candles;
 
     protected async override Task OnInitializedAsync()
     {
         _Param = Param;
+        // --- Company Info
         company = await finhub.GetCompanyInfo(Param);
+        // --- Company Financials
         //financials = await finhub.GetCompanyFinancials(Param);
-        finhub.test(Param);
+        // --- Company Quote
+        //financials = await finhub.GetCompanyQuote(Param);
+        // --- Company Candles... FROM=1641089347 & TO=1665623347
+        candles = await finhub.GetCompanyCandles(Param, 1641089347, 1665623347);
+        // --- TESTING
+        //finhub.test(Param);
         //await JS.InvokeAsync<string>("saveToSessionStorage");
         StateHasChanged();
     }
