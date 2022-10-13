@@ -113,19 +113,24 @@
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar" class="align-text-bottom"></span>
-            This week
-          </button>
+          @*DATE DROPDOWN*@
+            <select name="times" id="times" class="btn btn-sm btn-outline-secondary dropdown-toggle" @onchange="RePlotChart">
+                @foreach (var template in templates)
+                {
+                    <option value=@template>@template</option>
+                }
+            </select>
+          @*DATE DROPDOWN*@
         </div>
       </div>
-        @*@if(candles == null)
+        @if(candles == null)
         {
     
         } else
-        {*@
-        <PriceChart />
-        @*}*@
+        {
+        <div id="chart_div"></div>
+        }
+
       <h2>Financials</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -192,11 +197,13 @@
 @code {
     [Parameter]
     public string? Param { get; set; }
-    string _Param;
+    public string _Param;
     private CompanyInfo company;
     private CompanyFinancials financials;
     private CompanyQuote quote;
     private CompanyCandles candles;
+    private List<string> templates = new List<string>() { "Week", "Month", "Year" };
+    private string SelectedString = "Week";
 
     protected async override Task OnInitializedAsync()
     {
@@ -207,8 +214,9 @@
         //financials = await finhub.GetCompanyFinancials(Param);
         // --- Company Quote
         //financials = await finhub.GetCompanyQuote(Param);
-        // --- Company Candles... FROM=1641089347 & TO=1665623347
-        candles = await finhub.GetCompanyCandles(Param, 1641089347, 1665623347);
+        // --- Company Candles... FROM=1641089347 & TO=1665623347... set to weekly report initially
+        candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
+        //candles = await finhub.GetCompanyCandles(Param, 1641089347, ConvertToUnix(DateTime.Now));
         // --- TESTING
         //finhub.test(Param);
         //await JS.InvokeAsync<string>("saveToSessionStorage");
@@ -225,7 +233,49 @@
         }
     }
 
-    public async void Search(ChangeEventArgs e)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        PlotData();
+    }
+
+    private async void RePlotChart(ChangeEventArgs e)
+    {
+        SelectedString = e.Value.ToString();
+        switch (SelectedString)
+        {
+            case "Week":
+                    Console.WriteLine("It is definitely: " + SelectedString);
+                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
+                    StateHasChanged();
+                    return;
+            case "Month":
+                    Console.WriteLine("It is definitely: " + SelectedString);
+                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-744)), ConvertToUnix(DateTime.Now));
+                    StateHasChanged();
+                    return;
+            case "Year":
+                    Console.WriteLine("It is definitely: " + SelectedString);
+                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-8760)), ConvertToUnix(DateTime.Now));
+                    StateHasChanged();
+                    return;
+            default:
+                return;
+        }
+    }
+
+    private void PlotData()
+    {
+        JS.InvokeVoidAsync("drawTrendlines", candles);
+    }
+
+    private long ConvertToUnix(DateTime date)
+    {
+        long unixTime = ((DateTimeOffset)date).ToUnixTimeSeconds();
+        Console.WriteLine($"{unixTime} is unix time from NOW = {date}");
+        return unixTime;
+    }
+
+    private async void Search(ChangeEventArgs e)
     {
         // TODO: reset form value
         //_value = e.Value.ToString();

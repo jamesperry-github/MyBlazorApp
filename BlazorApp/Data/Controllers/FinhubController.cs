@@ -140,6 +140,7 @@ namespace BlazorApp.Data.Controllers
                 string url = $"{baseUrl}/stock/candle?symbol={tickerSymbol}&resolution=D&from={fromDate}&to={toDate}&token=cc6k1gqad3i394r9cps0";
                 var jsondata = await new FinhubService().requestFinhubJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyCandles>();
+                Console.WriteLine("");
             }
             catch (Exception)
             {
