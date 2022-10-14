@@ -11,7 +11,62 @@ namespace BlazorApp.Data.Controllers
     public class FinhubController
     {
         private string baseUrl = "https://finnhub.io/api/v1";
-        // (1) Lookup tickers in US
+        // (*) Market-wide news
+        // /news?category=general
+        public async Task<List<MarketNews[]>> GetMarketNews()
+        {
+            List<MarketNews> list = new List<MarketNews>();
+            List<MarketNews[]> pairedList = new List<MarketNews[]>();
+            try
+            {
+                string url = $"{baseUrl}/news?category=general&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                dynamic parsedResp = JArray.Parse(jsondata);
+                //// each news story
+                foreach (var item in parsedResp)
+                {
+                    list.Add(new MarketNews
+                    {
+                        category = item["category"],
+                        dateTime = item["dateTime"],
+                        headline = item["headline"],
+                        id = item["id"],
+                        image = item["image"],
+                        related = item["related"],
+                        source = item["source"],
+                        summary = item["summary"],
+                        url = item["url"],
+                    });
+                }
+
+                if(list.Count > 0)
+                {
+                    for (int i = 0; i < list.Count - 1; i++)
+                    {
+                        if (list.Count % 2 == 0)
+                        {
+                            //is even... add empty for even pairs
+                            list.Add(new MarketNews());
+                        }
+                        if (i != null)
+                        {
+                            if(i % 2 == 0)
+                            {
+                                MarketNews[]? pair = new MarketNews[] { list[i], list[i + 1] };
+                                pairedList.Add(pair);
+                            }
+                        }
+                    }
+                }
+                //Console.WriteLine("");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return await Task.FromResult(pairedList);
+        }
+        // (*) Lookup tickers in US
         // /stock/symbol?exchange=US
         public async Task<List<Stock>> GetStockList()
         {
@@ -45,7 +100,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(list);
         }
-        // (2) Company data from ticker
+        // (*) Company data from ticker
         // /stock/profile2?symbol=AAPL&token=cc6k1gqad3i394r9cps0
         public async Task<CompanyInfo> GetCompanyInfo(string tickerSymbol)
         {
@@ -63,7 +118,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(info);
         }
-        // (3) Company news from ticker and time interval
+        // (*) Company news from ticker and time interval
         // /company-news?symbol=AAPL&from=2021-09-01&to=2021-09-09&token=cc6k1gqad3i394r9cps0
         public async Task<List<CompanyNews>> GetCompanyNews(string tickerSymbol)
         {
@@ -96,7 +151,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(list);
         }
-        // (4) Company financials on ticker
+        // (*) Company financials on ticker
         // /stock/metric?symbol=AAPL&metric=all&token=cc6k1gqad3i394r9cps0
         public async Task<CompanyFinancials> GetCompanyFinancials(string tickerSymbol)
         {
@@ -113,7 +168,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(info);
         }
-        // (5) Ticker quotes
+        // (*) Ticker quotes
         // /quote?symbol=AAPL
         public async Task<CompanyQuote> GetCompanyQuote(string tickerSymbol)
         {
@@ -130,7 +185,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(info);
         }
-        // (6) Ticker candles
+        // (*) Ticker candles
         // /stock/candle?symbol=GME&resolution=D&from=1641089347&to=1665623347&token=cc6k1gqad3i394r9cps0
         public async Task<CompanyCandles?> GetCompanyCandles(string tickerSymbol, long fromDate, long toDate)
         {
@@ -148,7 +203,7 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(info);
         }
-        // (7) Company insider transaction on ticker and limit of 100
+        // (*) Company insider transaction on ticker and limit of 100
         // /stock/insider-transactions?symbol=AAPL&limit=100&token=cc6k1gqad3i394r9cps0
         public async void test3()
         {
@@ -167,7 +222,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (8) Company insider sentiment on ticket and time interval
+        // (*) Company insider sentiment on ticket and time interval
         // /stock/insider-sentiment?symbol=TSLA&from=2015-01-01&to=2022-03-01&token=cc6k1gqad3i394r9cps0
         public async void test4()
         {
@@ -186,7 +241,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (9) Upcoming IPOs on time interval
+        // (*) Upcoming IPOs on time interval
         // /calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0
         public async void test5()
         {
@@ -205,7 +260,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (10) Ticker technical indicators
+        // (*) Ticker technical indicators
         // /indicator?symbol=symbol=AAPL&resolution=D&from=1583098857&to=1584308457&indicator=sma&timeperiod=3&token=cc6k1gqad3i394r9cps0
         public async void test8()
         {
@@ -224,7 +279,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (11) Ticker social sentiment
+        // (*) Ticker social sentiment
         // /stock/social-sentiment?symbol=GME&token=cc6k1gqad3i394r9cps0
         public async void test9()
         {
@@ -243,7 +298,7 @@ namespace BlazorApp.Data.Controllers
             }
             //return await Task.FromResult(list);
         }
-        // (12) TIcker political lobbying
+        // (*) TIcker political lobbying
         // /stock/lobbying?symbol=AAPL&from=2021-01-01&to=2022-12-31&token=cc6k1gqad3i394r9cps0
         public async void test0()
         {

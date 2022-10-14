@@ -1,7 +1,12 @@
-﻿google.charts.load('current', { 'packages': ['corechart'] });
+﻿//// DOCUMENTATION: https://developers.google.com/chart/interactive/docs/gallery/linechart
+// Load the Visualization API and the corechart package.
+google.charts.load('current', { 'packages': ['corechart'] });
+// Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawTrendlines);
-
-function drawTrendlines(candles) {
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawTrendlines(candles = null) {
     var data = google.visualization.arrayToDataTable(formatChartSeries(candles.t, candles.c));
 
     var options = {
@@ -17,7 +22,6 @@ function drawTrendlines(candles) {
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
     chart.draw(data, options);
 }
 
@@ -28,13 +32,7 @@ function formatChartSeries(yArr, xArr) {
     }
     return test;
 }
-
+// function to convert unix timestamps to DateTime
 function jsDate(unix_timestamp) {
-    var date = new Date(unix_timestamp * 1000);
-    //var hours = date.getHours();
-    //var minutes = "0" + date.getMinutes();
-    //var seconds = "0" + date.getSeconds();
-    //var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-    //console.log('formattedTime', date);
-    return date;
+    return new Date(unix_timestamp * 1000);
 }

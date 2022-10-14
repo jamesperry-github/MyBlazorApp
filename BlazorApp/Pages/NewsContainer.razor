@@ -1,0 +1,158 @@
+﻿@using BlazorApp.Data.Controllers;
+@using BlazorApp.Data.Models;
+@using BlazorApp.Data;
+@inject NavigationManager NavManager
+@inject FinhubController finhub;
+
+@if (news == null)
+{
+
+}
+else
+{
+    @*FrontLine*@
+    <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 fst-italic">@frontline.headline</h1>
+            <p class="lead my-3">@frontline.summary</p>
+            <p class="lead mb-0"><a href=@frontline.url target="_blank" class="text-white fw-bold">Continue reading...</a></p>
+        </div>
+    </div>
+    @*FrontLine*@
+    @*CAROUSEL*@
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var item in firstNews)
+            {
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <div class="row mb-2">
+                        @*STORY*@
+                        <div class="col-md-6">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                                    <h3 class="mb-0">@item[0].headline</h3>
+                                    <div class="mb-1 text-muted">Nov 11</div>
+                                    <p class="mb-auto">@item[0].summary</p>
+                                    <a href=@item[0].url target="_blank" class="stretched-link">Continue reading</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
+                                        <title>Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em">Thumbnail</text>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @*STORY*@
+                        <div class="col-md-6">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                                    <h3 class="mb-0">@item[1].headline</h3>
+                                    <div class="mb-1 text-muted">Nov 11</div>
+                                    <p class="mb-auto">@item[1].summary</p>
+                                    <a href=@item[1].url target="_blank" class="stretched-link">Continue reading</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
+                                        <title>Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em">Thumbnail</text>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*STORY*@
+                    </div>
+                </div>
+            }
+            @foreach (var item in news)
+            {
+                <div class="carousel-item">
+                    <div class="row mb-2">
+                        @*STORY*@
+                        <div class="col-md-6">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                                    <h3 class="mb-0">@item[0].headline</h3>
+                                    <div class="mb-1 text-muted">Nov 11</div>
+                                    <p class="mb-auto">@item[0].summary</p>
+                                    <a href=@item[0].url target="_blank" class="stretched-link">Continue reading</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
+                                        <title>Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em">Thumbnail</text>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @*STORY*@
+                        <div class="col-md-6">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                                    <h3 class="mb-0">@item[1].headline</h3>
+                                    <div class="mb-1 text-muted">Nov 11</div>
+                                    <p class="mb-auto">@item[1].summary</p>
+                                    <a href=@item[1].url target="_blank" class="stretched-link">Continue reading</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
+                                        <title>Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                    dy=".3em">Thumbnail</text>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*STORY*@
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+@*CAROUSEL*@
+
+@code {
+    private List<MarketNews[]> firstNews = new();
+    private List<MarketNews[]> news = new();
+    private MarketNews frontline = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // --- Market News
+        news = await finhub.GetMarketNews();
+        frontline = news[0][0];
+        firstNews.Add(news[0]);
+        news.RemoveAt(0);
+        StateHasChanged();
+    }
+}

@@ -48,3 +48,11 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
+
+.carousel-control-prev[b-w6l7chfipm] {
+    background-color: red;
+}
+
+.carousel-control-next[b-w6l7chfipm] {
+    background-color: green;
+}

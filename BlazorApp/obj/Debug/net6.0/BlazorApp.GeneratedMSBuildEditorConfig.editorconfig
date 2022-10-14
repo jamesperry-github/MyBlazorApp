@@ -27,6 +27,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/NewsContainer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3c0NvbnRhaW5lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/PriceChart.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpY2VDaGFydC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

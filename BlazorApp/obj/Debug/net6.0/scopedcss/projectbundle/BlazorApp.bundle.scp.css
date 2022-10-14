@@ -100,6 +100,14 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
+
+.carousel-control-prev[b-w6l7chfipm] {
+    background-color: red;
+}
+
+.carousel-control-next[b-w6l7chfipm] {
+    background-color: green;
+}
 /* _content/BlazorApp/Pages/Sub-Reddit.razor.rz.scp.css */
 /*body {
     background-color: black;
