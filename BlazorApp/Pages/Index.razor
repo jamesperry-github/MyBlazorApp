@@ -1,10 +1,11 @@
 ﻿@page "/";
 
 @using BlazorApp.Data.Controllers;
-@using BlazorApp.Data.Models;
+@using BlazorApp.Data.Models.finhub.Market;
 @using BlazorApp.Data;
 @inject NavigationManager NavManager
 @inject FinhubController finhub;
+@inject AlphaVantageController alphaVantage;
 
 <PageTitle>Home</PageTitle>
 
@@ -221,5 +222,14 @@
 
 
 @code {
-    
+    private List<string> templates = new List<string>() { "Week", "Month", "Year" };
+
+    protected async override Task OnInitializedAsync()
+    {
+        // --- TESTING
+        finhub.test();
+
+        //await JS.InvokeAsync<string>("saveToSessionStorage");
+        //StateHasChanged();
+    }
 }

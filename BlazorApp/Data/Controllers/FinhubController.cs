@@ -2,10 +2,12 @@
 using System.Net.Http.Headers;
 using BlazorApp.Data.Services;
 using BlazorApp.Data.Models;
+using BlazorApp.Data.Models.finhub.Company;
+using BlazorApp.Data.Models.finhub.Market;
 
 namespace BlazorApp.Data.Controllers
 {
-    // ** API DOCUMENTATION: https://finnhub.io/docs/api/introduction **
+    // ** API DOCUMENTATION: https://finnhub.io/docs/api/introduction ** https://www.alphavantage.co/documentation/ //OF2K61IX5M3VB914
     //X-Finnhub-Secret: cc6k1gqad3i394r9cps0
     //X-Finnhub-Secret: sandbox_cc6k1gqad3i394r9cpsg
     public class FinhubController
@@ -66,6 +68,40 @@ namespace BlazorApp.Data.Controllers
             }
             return await Task.FromResult(pairedList);
         }
+        // (*) Upcoming IPOs
+        // /calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0
+        public async void test()
+        {
+            List<UpcomingIPO> list = new List<UpcomingIPO>();
+            try
+            {
+                string url = $"{baseUrl}/calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0";
+                var jsondata = await new FinhubService().requestFinhubJson(url);
+                dynamic parsedResp = JObject.Parse(jsondata)["ipoCalendar"].ToList();
+                //// each IPO
+                foreach (var item in parsedResp)
+                {
+                    list.Add(new UpcomingIPO
+                    {
+                        date = item["date"],
+                        exchange = item["exchange"],
+                        name = item["name"],
+                        numberOfShares = item["numberOfShares"],
+                        price = item["price"],
+                        status = item["status"],
+                        symbol = item["symbol"],
+                        totalSharesValue = item["totalSharesValue"],
+                    });
+                }
+
+                Console.WriteLine("");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            //return await Task.FromResult(info);
+        }
         // (*) Lookup tickers in US
         // /stock/symbol?exchange=US
         public async Task<List<Stock>> GetStockList()
@@ -110,7 +146,6 @@ namespace BlazorApp.Data.Controllers
                 string url = $"{baseUrl}/stock/profile2?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
                 var jsondata = await new FinhubService().requestFinhubJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
-                Console.WriteLine("");
             }
             catch (Exception)
             {

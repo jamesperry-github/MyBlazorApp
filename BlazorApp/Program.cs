@@ -25,6 +25,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 //builder.Services.AddTransient<Tester>();
 builder.Services.AddTransient<RedditController>();
 builder.Services.AddSingleton<FinhubController>();
+builder.Services.AddSingleton<AlphaVantageController>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();
 //

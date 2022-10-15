@@ -27,10 +27,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/NewsContainer.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3c0NvbnRhaW5lci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/PriceChart.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpY2VDaGFydC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -58,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope = b-pxy278vbng
 [C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-w6l7chfipm
+
+[C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/NewsContainer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3c0NvbnRhaW5lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-2tei644nfc
 
 [C:/Users/james.perry/source/repos/MyBlazorApp/BlazorApp/Pages/Sub-Reddit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViLVJlZGRpdC5yYXpvcg==

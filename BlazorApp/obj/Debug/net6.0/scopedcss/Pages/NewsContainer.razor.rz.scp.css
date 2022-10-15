@@ -1,0 +1,14 @@
+.carousel-control-prev[b-2tei644nfc] {
+    background-color: dimgrey;
+    height: 300px;
+    width: 20px;
+    left: -2.5%;
+}
+
+.carousel-control-next[b-2tei644nfc] {
+    background-color: dimgrey;
+    height: 300px;
+    width: 20px;
+    float: right;
+    left: 101%;
+}

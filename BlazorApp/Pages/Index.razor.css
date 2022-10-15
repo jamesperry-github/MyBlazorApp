@@ -48,11 +48,3 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
-
-.carousel-control-prev {
-    background-color: red;
-}
-
-.carousel-control-next {
-    background-color: green;
-}

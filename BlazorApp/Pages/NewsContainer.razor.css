@@ -1,0 +1,14 @@
+﻿.carousel-control-prev {
+    background-color: dimgrey;
+    height: 300px;
+    width: 20px;
+    left: -2.5%;
+}
+
+.carousel-control-next {
+    background-color: dimgrey;
+    height: 300px;
+    width: 20px;
+    float: right;
+    left: 101%;
+}

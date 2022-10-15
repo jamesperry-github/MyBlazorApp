@@ -827,3 +827,4 @@ C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfus
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.Licensing.dll
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\Syncfusion.PdfExport.Net.dll
 C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\james.perry\source\repos\MyBlazorApp\BlazorApp\obj\Debug\net6.0\scopedcss\Pages\NewsContainer.razor.rz.scp.css

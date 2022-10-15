@@ -9,11 +9,13 @@
 
   <ItemGroup>
     <None Remove="Pages\Company-Profile.razor.css" />
+    <None Remove="Pages\NewsContainer.razor.css" />
     <None Remove="Pages\Sub-Reddit.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Pages\Company-Profile.razor.css" />
+    <Content Include="Pages\NewsContainer.razor.css" />
     <Content Include="Pages\Sub-Reddit.razor.css" />
   </ItemGroup>
 
