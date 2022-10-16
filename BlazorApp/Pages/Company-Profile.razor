@@ -2,8 +2,10 @@
 
 @using BlazorApp.Data.Controllers;
 @using BlazorApp.Data.Models.finhub.Company;
+@using BlazorApp.Data.Models.alphaVantage.Company;
 @inject NavigationManager NavManager;
 @inject FinhubController finhub;
+@inject AlphaVantageController alphaVantage;
 @inject IJSRuntime JS
 
 <PageTitle>Index</PageTitle>
@@ -113,7 +115,7 @@
             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
           </div>
           @*DATE DROPDOWN*@
-            <select name="times" id="times" class="btn btn-sm btn-outline-secondary dropdown-toggle" @onchange="RePlotChart">
+            <select name="times" id="times" class="btn btn-sm btn-outline-secondary dropdown-toggle" @onchange="reDrawChart">
                 @foreach (var template in templates)
                 {
                     <option value=@template>@template</option>
@@ -122,12 +124,12 @@
           @*DATE DROPDOWN*@
         </div>
       </div>
-        @if(candles == null)
+        @if(candles == null && timeSeries == null)
         {
     
         } else
         {
-        <div id="chart_div"></div>
+        <div id="chart_div" style="width: 100%; height: 500px;"></div>
         }
 
       <h2>Financials</h2>
@@ -201,8 +203,10 @@
     private CompanyFinancials financials;
     private CompanyQuote quote;
     private CompanyCandles candles;
-    private List<string> templates = new List<string>() { "Week", "Month", "Year" };
-    private string SelectedString = "Week";
+    private List<string> templates = new List<string>() { "Day", "Week", "Month", "Year" };
+    // TODO: store weekly, monthly & yearly in memory 
+    private List<TimeSeries> timeSeries;
+    private string SelectedString = "Day";
 
     protected async override Task OnInitializedAsync()
     {
@@ -216,6 +220,9 @@
         // --- Company Candles... FROM=1641089347 & TO=1665623347... set to weekly report initially
         candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
         //candles = await finhub.GetCompanyCandles(Param, 1641089347, ConvertToUnix(DateTime.Now));
+        timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+        //storeData();
+
         // --- TESTING
         //finhub.test(Param);
         //await JS.InvokeAsync<string>("saveToSessionStorage");
@@ -234,38 +241,52 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        PlotData();
+        drawChart();
     }
 
-    private async void RePlotChart(ChangeEventArgs e)
+    private async void reDrawChart(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
         switch (SelectedString)
         {
+            case "Day":
+                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                StateHasChanged();
+                return;
             case "Week":
-                    Console.WriteLine("It is definitely: " + SelectedString);
-                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
-                    StateHasChanged();
-                    return;
+                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
+                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                StateHasChanged();
+                return;
             case "Month":
-                    Console.WriteLine("It is definitely: " + SelectedString);
-                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-744)), ConvertToUnix(DateTime.Now));
-                    StateHasChanged();
-                    return;
+                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-744)), ConvertToUnix(DateTime.Now));
+                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                StateHasChanged();
+                return;
             case "Year":
-                    Console.WriteLine("It is definitely: " + SelectedString);
-                    candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-8760)), ConvertToUnix(DateTime.Now));
-                    StateHasChanged();
-                    return;
+                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-8760)), ConvertToUnix(DateTime.Now));
+                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                StateHasChanged();
+                return;
             default:
                 return;
         }
     }
 
-    private void PlotData()
+    private void drawChart()
     {
-        JS.InvokeVoidAsync("drawTrendlines", candles);
+        //JS.InvokeVoidAsync("drawTrendlines", candles, timeSeries, SelectedString);
+        JS.InvokeVoidAsync("drawChart", timeSeries, SelectedString);
     }
+
+    //private void getChartSet()
+    //{
+    //    if (_Param == Param)
+    //    {
+    //        Console.WriteLine($"Param is still set to {Param}");
+    //        JS.InvokeVoidAsync("getChartSet", timeSeries, SelectedString);
+    //    }
+    //}
 
     private long ConvertToUnix(DateTime date)
     {

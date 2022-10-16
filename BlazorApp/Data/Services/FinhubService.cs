@@ -7,12 +7,12 @@ namespace BlazorApp.Data.Services
     public class FinhubService
     {
         //private string baseUrl = "https://finnhub.io/api/v1";
-        public async Task<string> requestFinhubJson(string url)
+        public async Task<string> requestJson(string url)
         {
             string jsondata = "";
             try
             {
-                using (var client = new HttpClient())
+                using (HttpClient client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Clear();

@@ -1,6 +1,7 @@
 using BlazorApp.Areas.Identity;
 using BlazorApp.Data;
 using BlazorApp.Data.Controllers;
+using BlazorApp.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddTransient<RedditController>();
 builder.Services.AddSingleton<FinhubController>();
 builder.Services.AddSingleton<AlphaVantageController>();
+builder.Services.AddSingleton<TimeSeriesManager>();
 // HTTP CLIENT
 builder.Services.AddHttpClient();
 //

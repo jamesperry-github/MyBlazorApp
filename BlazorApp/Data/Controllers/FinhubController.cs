@@ -7,7 +7,7 @@ using BlazorApp.Data.Models.finhub.Market;
 
 namespace BlazorApp.Data.Controllers
 {
-    // ** API DOCUMENTATION: https://finnhub.io/docs/api/introduction ** https://www.alphavantage.co/documentation/ //OF2K61IX5M3VB914
+    // ** API DOCUMENTATION: https://finnhub.io/docs/api/introduction
     //X-Finnhub-Secret: cc6k1gqad3i394r9cps0
     //X-Finnhub-Secret: sandbox_cc6k1gqad3i394r9cpsg
     public class FinhubController
@@ -22,7 +22,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/news?category=general&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 dynamic parsedResp = JArray.Parse(jsondata);
                 //// each news story
                 foreach (var item in parsedResp)
@@ -76,7 +76,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/calendar/ipo?from=2020-01-01&to=2020-04-30&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 dynamic parsedResp = JObject.Parse(jsondata)["ipoCalendar"].ToList();
                 //// each IPO
                 foreach (var item in parsedResp)
@@ -110,7 +110,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/stock/symbol?exchange=US&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 dynamic parsedResp = JArray.Parse(jsondata);
                 //// each stock ticket
                 foreach (var item in parsedResp)
@@ -144,7 +144,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/stock/profile2?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
             }
             catch (Exception)
@@ -161,7 +161,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/company-news?symbol={tickerSymbol}&from=2021-09-01&to=2021-09-09&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 dynamic parsedResp = JArray.Parse(jsondata);
                 //// each news article
                 foreach (var item in parsedResp)
@@ -194,7 +194,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/stock/metric?symbol={tickerSymbol}&metric=all&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 info = JObject.Parse(jsondata)["metric"].ToObject<CompanyFinancials>();
             }
             catch (Exception)
@@ -211,7 +211,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/quote?symbol={tickerSymbol}&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyQuote>();
             }
             catch (Exception)
@@ -228,7 +228,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 string url = $"{baseUrl}/stock/candle?symbol={tickerSymbol}&resolution=D&from={fromDate}&to={toDate}&token=cc6k1gqad3i394r9cps0";
-                var jsondata = await new FinhubService().requestFinhubJson(url);
+                var jsondata = await new FinhubService().requestJson(url);
                 info = JObject.Parse(jsondata).ToObject<CompanyCandles>();
                 Console.WriteLine("");
             }
@@ -246,7 +246,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
@@ -265,7 +265,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
@@ -284,7 +284,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
@@ -303,7 +303,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
@@ -322,7 +322,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
@@ -341,7 +341,7 @@ namespace BlazorApp.Data.Controllers
             try
             {
                 //string url = $"{baseUrl}/quote?symbol={tickerSymbol}";
-                //var jsondata = await new FinhubService().requestFinhubJson(url);
+                //var jsondata = await new FinhubService().requestJson(url);
                 //dynamic parsedResp = JArray.Parse(jsondata);
                 //info = JObject.Parse(jsondata).ToObject<CompanyInfo>();
                 Console.WriteLine("");
