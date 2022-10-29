@@ -4,7 +4,7 @@ using BlazorApp.Data.Models;
 
 namespace BlazorApp.Data.Services
 {
-    public class AlphaVantageService
+    public class TimeSeriesFinanceService
     {
         //private string baseUrl = "https://finnhub.io/api/v1";
         public async Task<string> requestJson(string url)

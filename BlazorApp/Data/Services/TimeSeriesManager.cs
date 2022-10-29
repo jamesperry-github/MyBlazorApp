@@ -3,77 +3,75 @@
 namespace BlazorApp.Data.Services;
 public class TimeSeriesManager
 {
-    // static to prevent Dictionary object from being created every request ... store each stock
-    private static readonly Dictionary<string, string> ticker = new();
-    private static readonly Dictionary<string, TimeSeries> _dayTimeSeries = new();
-    private static readonly Dictionary<string, TimeSeries> _weekTimeSeries = new();
-    private static readonly Dictionary<string, TimeSeries> _monthTimeSeries = new();
-    private static readonly Dictionary<string, TimeSeries> _yearTimeSeries = new();
+    // static to prevent Dictionary object from being created every request
     // main storage
     private static readonly Dictionary<string, List<TimeSeries>> _timeSeries = new();
-
-    public string CreateRecord(TimeSeries item, string duration, string tickerSymbol)
-    {
-        switch (duration)
-        {
-            case "Day":
-                _dayTimeSeries.Add($"{item.date}-{duration}-{tickerSymbol}", item);
-                return duration;
-            case "Week":
-                _weekTimeSeries.Add($"{item.date}-{duration}-{tickerSymbol}", item);
-                return duration;
-            case "Month":
-                _monthTimeSeries.Add($"{item.date}-{duration}-{tickerSymbol}", item);
-                return duration;
-            case "Year":
-                _yearTimeSeries.Add($"{item.date}-{duration}-{tickerSymbol}", item);
-                return duration;
-            default:
-                Console.WriteLine();
-                return duration;
-        }
-    }
-    public void CreateStorage(string duration, List<TimeSeries> list)
-    {
-        _timeSeries.Add(duration, list);
-    }
-    public List<TimeSeries> GetRecordList(string duration)
+    public void addStockToStorage(string duration, string symbol, dynamic items)
     {
         List<TimeSeries> list = new();
-        switch (duration)
+        foreach (var item in items)
         {
-            case "Day":
-                return _dayTimeSeries.Values.ToList();
-            case "Week":
-                return _weekTimeSeries.Values.ToList();
-            case "Month":
-                return _monthTimeSeries.Values.ToList();
-            case "Year":
-                return _yearTimeSeries.Values.ToList();
-            default:
-                return list;
+            if(duration == "Day")
+            {
+                list.Add(new TimeSeries
+                {
+                    date = item["date"],
+                    open = item["open"],
+                    low = item["low"],
+                    high = item["high"],
+                    close = item["close"],
+                    volume = item["volume"]
+                });
+            } else
+            {
+                list.Add(new TimeSeries
+                {
+                    date = DateTime.Parse(item.Name),
+                    open = item.Value["1. open"],
+                    high = item.Value["2. high"],
+                    low = item.Value["3. low"],
+                    close = item.Value["4. close"],
+                    volume = item.Value["5. volume"],
+                });
+            }
         }
+        createStorage(duration, symbol, list);
     }
-    public void storeTicker(string symbol)
+    public void createStorage(string duration, string tickerSymbol, List<TimeSeries> list)
     {
-        // clear previous ticker
-        ticker.Clear();
-        // clear previous time series data
-        _dayTimeSeries.Clear();
-        _weekTimeSeries.Clear();
-        _monthTimeSeries.Clear();
-        _yearTimeSeries.Clear();
-        _timeSeries.Clear();
-        // add ticker
-        ticker.Add(symbol, symbol);
+        var tester = duration == "Day" ? "Day" : "other";
+        _timeSeries.Add($"{tickerSymbol}-{tester}", list);
     }
-    public string GetTicker()
+    public List<TimeSeries> getRecordList(string duration, string tickerSymbol)
     {
-        if(ticker.Values.ToList().Count > 0)
+        List<TimeSeries> list = new();
+        foreach (var kvp in _timeSeries)
         {
-            return ticker.First().Key;
+            if(findSymbol(kvp.Key, duration, tickerSymbol))
+            {
+                return kvp.Value;
+            }
         }
-        // return random generic value
-        return "%%%%%%%**%%%%%%%%";
+        return list;
+    }
+    public bool getTicker(string duration, string symbol)
+    {
+        foreach (var kvp in _timeSeries)
+        {
+            if (findSymbol(kvp.Key, duration, symbol))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private bool findSymbol(string stringValue, string duration, string symbol)
+    {
+        var tester = duration == "Day" ? "Day" : "other";
+        if (stringValue.ToLower().Contains(tester.ToLower()) && stringValue.ToLower().Contains(symbol.ToLower()))
+        {
+            return true;
+        }
+        return false;
     }
 }

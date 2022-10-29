@@ -8,6 +8,11 @@ using BlazorApp.Data.Models.finhub.Market;
 namespace BlazorApp.Data.Controllers
 {
     // ** API DOCUMENTATION: https://finnhub.io/docs/api/introduction
+    // FRED: https://fred.stlouisfed.org/docs/api/fred/
+    // OPEN BB: https://openbb-finance.github.io/OpenBBTerminal/
+    // OPEN BB MORE SOURCES: https://openbb-finance.github.io/OpenBBTerminal/#accessing-the-openbb-terminal
+    // GOOGLE CHARTS: https://developers.google.com/chart/interactive/docs/gallery/candlestickchart
+    // MORE: https://site.financialmodelingprep.com/developer/docs/#Stock-Historical-Price
     //X-Finnhub-Secret: cc6k1gqad3i394r9cps0
     //X-Finnhub-Secret: sandbox_cc6k1gqad3i394r9cpsg
     public class FinhubController

@@ -7,6 +7,8 @@ google.charts.setOnLoadCallback(drawChart);
 //// instantiates the pie chart, passes in the data and
 //// draws it.
 function drawChart(timeSeries, duration) {
+    console.log("DURATION", duration);
+    console.log("timeSeries", timeSeries);
     //storeSessionData(timeSeries);
     // define data table
     var dataTable = new google.visualization.DataTable();
@@ -26,18 +28,27 @@ function drawChart(timeSeries, duration) {
             case "Day": //convertTZ
                 time = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
                 time = `${time[0]} ${time[1]} ${time[2]} ${time[3]}`;
-                return `${duration} of ${time} (US/Eastern)`;
+                return `${duration} of ${time} (US/Eastern) (1 min)`;
             case "Week":
-                let time1 = `${new Date(timeSeries[0].date)}`.split(" ");
-                let time2 = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
-                return `${duration} of ${time1[0]} - ${time2[0]}`;
+                //let time1 = `${new Date(timeSeries[0].date)}`.split(" ");
+                //let time2 = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
+                //return `${duration} of ${time1[0]} - ${time2[0]}`;
+                time = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
+                time = `${time[0]} ${time[1]} ${time[2]} ${time[3]}`;
+                return `${duration} of ${time} (US/Eastern)`;
             case "Month":
                 //return `${duration} of ${Intl.DateTimeFormat('en', { month: 'long' }).format(new Date('1'))}`;
-                time = `${Intl.DateTimeFormat('en', { month: 'long' }).format(new Date('1'))}`;
-                return `${duration} of ${time}`;
-            case "Year":
+                //time = `${Intl.DateTimeFormat('en', { month: 'long' }).format(new Date('1'))}`;
+                //return `${duration} of ${time}`;
                 time = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
-                return `${duration} of ${time[3]}`;
+                time = `${time[0]} ${time[1]} ${time[2]} ${time[3]}`;
+                return `${duration} of ${time} (US/Eastern)`;
+            case "Year":
+                //time = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
+                //return `${duration} of ${time[3]}`;
+                time = `${new Date(timeSeries[timeSeries.length - 1].date)}`.split(" ");
+                time = `${time[0]} ${time[1]} ${time[2]} ${time[3]}`;
+                return `${duration} of ${time} (US/Eastern)`;
             default:
                 return;
         }
@@ -63,45 +74,6 @@ function drawChart(timeSeries, duration) {
     chart.draw(dataTable, options);
 }
 
-function getChartSet(data, duration) {
-    if (duration == "Day") {
-
-    }
-    //if (duration == "Day") {
-    //    // day
-    //    if (sessionStorage.dailyTimeSeries) {
-    //        return JSON.parse(sessionStorage.dailyTimeSeries);
-    //    } else {
-    //        sessionStorage.setItem("dailyTimeSeries", JSON.stringify(data));
-    //        return data;
-    //    }
-    //} else if (duration == "Week") {
-    //    // week
-    //    if (sessionStorage.weeklyTimeSeries) {
-    //        return JSON.parse(sessionStorage.weeklyTimeSeries);
-    //    } else {
-    //        sessionStorage.setItem("weeklyTimeSeries", JSON.stringify(data));
-    //        return data;
-    //    }
-    //} else if (duration == "Month") {
-    //    // month
-    //    if (sessionStorage.monthlyTimeSeries) {
-    //        return JSON.parse(sessionStorage.monthlyTimeSeries);
-    //    } else {
-    //        sessionStorage.setItem("monthlyTimeSeries", JSON.stringify(data));
-    //        return data;
-    //    }
-    //} else {
-    //    // year
-    //    if (sessionStorage.yearlyTimeSeries) {
-    //        return JSON.parse(sessionStorage.yearlyTimeSeries);
-    //    } else {
-    //        sessionStorage.setItem("yearlyTimeSeries", JSON.stringify(data));
-    //        return data;
-    //    }
-    //}
-}
-
 function formatChartSeries(data, duration) {
 
     let row = (index, value) => data[index][value];
@@ -113,11 +85,12 @@ function formatChartSeries(data, duration) {
             row(i, "open"),
             row(i, "close"),
             row(i, "close"),
-            duration && duration == "Day" ?
-                // daily using 5 min timestamps
-                `Time: ${formatDateLabel(row(i, "date"))}\nOpen: ${row(i, "open")}\nClose: ${row(i, "close")}` :
-                // other using datetimes
-                `Date: ${row(i, "date")}\nOpen: ${row(i, "open")}\nClose: ${row(i, "close")}`
+            `Date: ${formatDateLabel(row(i, "date"))}\nOpen: ${row(i, "open")}\nClose: ${row(i, "close")}`,
+            //duration && duration == "Day" ?
+            //    // daily using 5 min timestamps
+            //    `Time: ${formatDateLabel(row(i, "date"))}\nOpen: ${row(i, "open")}\nClose: ${row(i, "close")}` :
+            //    // other using datetimes
+            //    `Date: ${row(i, "date")}\nOpen: ${row(i, "open")}\nClose: ${row(i, "close")}`
         ]);
     }
     return rows;
@@ -126,18 +99,5 @@ function formatChartSeries(data, duration) {
 function formatDateLabel(date) {
     //2022 - 10 - 14T09: 55: 00
     str = date.split("T");
-    return str[1];
+    return str[0] + " " + str[1];
 }
-
-//function formatChartSeries(yArr, xArr) {
-//    let test = [['Time', 'Stock Price']];
-//    for (let i = 0; i < yArr.length; i++) {
-//        test.push([jsDate(yArr[i]), xArr[i]]);
-//    }
-//    //console.log("FORMAT 1", test);
-//    return test;
-//}
-//// function to convert unix timestamps to DateTime
-//function jsDate(unix_timestamp) {
-//    return new Date(unix_timestamp * 1000);
-//}

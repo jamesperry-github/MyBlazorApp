@@ -45,3 +45,10 @@ namespace BlazorApp.Data.Models.alphaVantage.Company
 //"3. low": "24.6300",
 //"4. close": "24.6300",
 //"5. volume": "2778436"
+
+//"date" : "2022-10-19 16:00:00",
+//"open" : 143.86000000,
+//"low" : 143.82000000,
+//"high" : 144.04000000,
+//"close" : 143.92000000,
+//"volume" : 553600

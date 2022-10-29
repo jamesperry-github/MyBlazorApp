@@ -107,28 +107,30 @@
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">@company.name</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          @*DATE DROPDOWN*@
-            <select name="times" id="times" class="btn btn-sm btn-outline-secondary dropdown-toggle" @onchange="reDrawChart">
-                @foreach (var template in templates)
-                {
-                    <option value=@template>@template</option>
-                }
-            </select>
-          @*DATE DROPDOWN*@
-        </div>
-      </div>
+      
         @if(candles == null && timeSeries == null)
         {
     
         } else
         {
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">@company.name</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                </div>
+                @*DATE DROPDOWN*@
+                <select name="times" id="times" class="btn btn-sm btn-outline-secondary dropdown-toggle" @onchange="reDrawChart" value=@datePick>
+                    @foreach (var template in templates)
+                    {
+                        <option value=@template>@template</option>
+                    }
+                </select>
+                @*DATE DROPDOWN*@
+            </div>
+        </div>
+
         <div id="chart_div" style="width: 100%; height: 500px;"></div>
         }
 
@@ -203,10 +205,10 @@
     private CompanyFinancials financials;
     private CompanyQuote quote;
     private CompanyCandles candles;
-    private List<string> templates = new List<string>() { "Day", "Week", "Month", "Year" };
+    private List<string> templates = new List<string>() { "Day", "Week", "Month", "Year", "All" };
     // TODO: store weekly, monthly & yearly in memory 
     private List<TimeSeries> timeSeries;
-    private string SelectedString = "Day";
+    private string datePick = "Day";
 
     protected async override Task OnInitializedAsync()
     {
@@ -218,9 +220,9 @@
         // --- Company Quote
         //financials = await finhub.GetCompanyQuote(Param);
         // --- Company Candles... FROM=1641089347 & TO=1665623347... set to weekly report initially
-        candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
+        //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
         //candles = await finhub.GetCompanyCandles(Param, 1641089347, ConvertToUnix(DateTime.Now));
-        timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+        timeSeries = await alphaVantage.GetDailyTimeSeries(Param, datePick);
         //storeData();
 
         // --- TESTING
@@ -235,6 +237,7 @@
         if (_Param != Param)
         {
             _Param = Param;
+            datePick = "Day";
             await OnInitializedAsync();
         }
     }
@@ -246,26 +249,28 @@
 
     private async void reDrawChart(ChangeEventArgs e)
     {
-        SelectedString = e.Value.ToString();
-        switch (SelectedString)
+        datePick = e.Value.ToString();
+        timeSeries = null;
+        switch (datePick)
         {
             case "Day":
-                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                timeSeries = await alphaVantage.GetDailyTimeSeries(Param, datePick);
                 StateHasChanged();
                 return;
             case "Week":
-                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-168)), ConvertToUnix(DateTime.Now));
-                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                timeSeries = await alphaVantage.GetTimeSeries(Param, datePick);
                 StateHasChanged();
                 return;
             case "Month":
-                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-744)), ConvertToUnix(DateTime.Now));
-                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                timeSeries = await alphaVantage.GetTimeSeries(Param, datePick);
                 StateHasChanged();
                 return;
             case "Year":
-                //candles = await finhub.GetCompanyCandles(Param, ConvertToUnix(DateTime.Now.AddHours(-8760)), ConvertToUnix(DateTime.Now));
-                timeSeries = await alphaVantage.GetTimeSeries(Param, SelectedString);
+                timeSeries = await alphaVantage.GetTimeSeries(Param, datePick);
+                StateHasChanged();
+                return;
+            case "All":
+                timeSeries = await alphaVantage.GetTimeSeries(Param, datePick);
                 StateHasChanged();
                 return;
             default:
@@ -275,30 +280,18 @@
 
     private void drawChart()
     {
-        //JS.InvokeVoidAsync("drawTrendlines", candles, timeSeries, SelectedString);
-        JS.InvokeVoidAsync("drawChart", timeSeries, SelectedString);
+        JS.InvokeVoidAsync("drawChart", timeSeries, datePick);
     }
-
-    //private void getChartSet()
-    //{
-    //    if (_Param == Param)
-    //    {
-    //        Console.WriteLine($"Param is still set to {Param}");
-    //        JS.InvokeVoidAsync("getChartSet", timeSeries, SelectedString);
-    //    }
-    //}
 
     private long ConvertToUnix(DateTime date)
     {
         long unixTime = ((DateTimeOffset)date).ToUnixTimeSeconds();
-        //Console.WriteLine($"{unixTime} is unix time from NOW = {date}");
         return unixTime;
     }
 
     private async void Search(ChangeEventArgs e)
     {
         // TODO: reset form value
-        //_value = e.Value.ToString();
         NavManager.NavigateTo($"/stock/{e.Value}");
     }
 }
